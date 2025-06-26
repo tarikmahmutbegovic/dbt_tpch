@@ -1,0 +1,118 @@
+version: 2
+
+models:
+  - name: raw_customer
+    description: "Raw TPCH customer data"
+    columns:
+      - name: c_custkey
+        description: "Customer primary key"
+        tests:
+          - not_null
+          - unique
+      - name: c_name
+        description: "Customer name"
+        tests:
+          - not_null
+      - name: c_address
+        description: "Customer address"
+        tests:
+          - not_null
+      - name: c_nationkey
+        description: "Nation key"
+        tests:
+          - not_null
+      - name: c_phone
+        description: "Customer phone number"
+      - name: c_acctbal
+        description: "Account balance"
+      - name: c_mktsegment
+        description: "Market segment"
+      - name: c_comment
+        description: "Comment field"
+
+  - name: raw_orders
+    description: "Raw TPCH orders data"
+    columns:
+      - name: o_orderkey
+        description: "Order primary key"
+        tests:
+          - not_null
+          - unique
+      - name: o_custkey
+        description: "Customer key (FK → raw_customer)"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('raw_customer')
+              field: c_custkey
+      - name: o_orderstatus
+        description: "Order status"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['O','F','P']
+      - name: o_totalprice
+        description: "Total order price"
+        tests:
+          - not_null
+      - name: o_orderdate
+        description: "Order date"
+        tests:
+          - not_null
+      - name: o_orderpriority
+        description: "Order priority"
+      - name: o_clerk
+        description: "Clerk ID"
+      - name: o_shippriority
+        description: "Ship priority"
+      - name: o_comment
+        description: "Comment field"
+
+  - name: raw_lineitem
+    description: "Raw TPCH lineitem data"
+    columns:
+      - name: l_orderkey
+        description: "Order key (FK → raw_orders)"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('raw_orders')
+              field: o_orderkey
+      - name: l_linenumber
+        description: "Line number within order"
+        tests:
+          - not_null
+      - name: l_partkey
+        description: "Part key"
+        tests:
+          - not_null
+      - name: l_suppkey
+        description: "Supplier key"
+        tests:
+          - not_null
+      - name: l_quantity
+        description: "Quantity ordered"
+      - name: l_extendedprice
+        description: "Extended price"
+      - name: l_discount
+        description: "Discount applied"
+      - name: l_tax
+        description: "Tax applied"
+      - name: l_returnflag
+        description: "Return flag"
+      - name: l_linestatus
+        description: "Line status"
+      - name: l_shipdate
+        description: "Ship date"
+        tests:
+          - not_null
+      - name: l_commitdate
+        description: "Commit date"
+      - name: l_receiptdate
+        description: "Receipt date"
+      - name: l_shipinstruct
+        description: "Shipping instructions"
+      - name: l_shipmode
+        description: "Shipping mode"
+      - name: l_comment
+        description: "Comment field"

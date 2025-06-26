@@ -1,0 +1,18 @@
+name: 'dbt_tpch_project'
+version: '1.0.0'
+config-version: 2
+
+profile: 'dbt_tpch_project'
+
+model-paths: ["models"]
+target-path: "target"
+clean-targets: ["target", "dbt_modules"]
+
+models:
+  dbt_tpch_project:
+    raw:
+      +schema: raw
+    silver:
+      +schema: silver
+    gold:
+      +schema: gold

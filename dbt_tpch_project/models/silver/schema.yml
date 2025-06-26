@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: silver_customer
+    description: "Silver (cleansed) customer data"
+    columns:
+      - name: customer_id
+        description: "Customer key"
+        tests:
+          - not_null
+          - unique
+
+  - name: silver_orders
+    description: "Silver (cleansed) orders data"
+    columns:
+      - name: order_id
+        description: "Order key"
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        description: "Customer key (FK → silver_customer)"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('silver_customer')
+              field: customer_id
+
+  - name: silver_lineitem
+    description: "Silver (cleansed) lineitem data"
+    columns:
+      - name: order_id
+        description: "Order key (FK → silver_orders)"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('silver_orders')
+              field: order_id
+      - name: line_status
+        description: "Line status"
+        tests:
+          - not_null
